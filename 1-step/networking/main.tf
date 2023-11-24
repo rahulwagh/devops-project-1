@@ -4,8 +4,12 @@ variable "cidr_public_subnet" {}
 variable "eu_availability_zone" {}
 variable "cidr_private_subnet" {}
 
-output "vpc_jhooq_eu_central_1_name" {
+output "dev_proj_1_vpc_id" {
   value = aws_vpc.dev_proj_1_vpc_eu_central_1.id
+}
+
+output "dev_proj_1_public_subnets" {
+  value = aws_subnet.dev_proj_1_public_subnets.*.id
 }
 
 # Setup VPC
