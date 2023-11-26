@@ -6,6 +6,7 @@ variable "subnet_id" {}
 variable "sg_enable_ssh_https" {}
 variable "enable_public_ip_address" {}
 variable "user_data_install_apache" {}
+variable "ec2_sg_name_for_python_api" {}
 
 output "ssh_connection_string_for_ec2" {
   value = format("%s%s", "ssh -i /Users/rahulwagh/.ssh/aws_ec2_terraform ubuntu@", aws_instance.dev_proj_1_ec2.public_ip)
@@ -23,7 +24,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
   }
   key_name                    = "aws_key"
   subnet_id                   = var.subnet_id
-  vpc_security_group_ids      = [var.sg_enable_ssh_https]
+  vpc_security_group_ids      = [var.sg_enable_ssh_https, var.ec2_sg_name_for_python_api]
   associate_public_ip_address = var.enable_public_ip_address
 
   user_data = var.user_data_install_apache
@@ -31,6 +32,35 @@ resource "aws_instance" "dev_proj_1_ec2" {
   metadata_options {
     http_endpoint = "enabled"  # Enable the IMDSv2 endpoint
     http_tokens   = "required" # Require the use of IMDSv2 tokens
+  }
+
+  #Copy Python app files
+  provisioner "file" {
+    source      = "./template/python-app/app.py"
+    destination = "/home/ubuntu/app.py"
+  }
+
+  provisioner "file" {
+    source      = "./template/python-app/requirements.txt"
+    destination = "/home/ubuntu/requirements.txt"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "yes | sudo apt update",
+      "yes | sudo apt install python3 python3-pip",
+      "pip3 install -r /home/ubuntu/requirements.txt",
+      "nohup python3 -u /home/ubuntu/app.py &"
+    ]
+  }
+
+  # Connection is necessary for file provisioner to work
+  connection {
+    type        = "ssh"
+    host        = self.public_ip
+    user        = "ubuntu"
+    private_key = file("/Users/rahulwagh/.ssh/aws_ec2_terraform")
+    timeout     = "4m"
   }
 
 }

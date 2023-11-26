@@ -15,9 +15,11 @@ module "networking" {
 }
 
 module "security_group" {
-  source      = "./security-groups"
-  ec2_sg_name = "SG for EC2 to enable SSH(22) and HTTP(80)"
-  vpc_id      = module.networking.dev_proj_1_vpc_id
+  source                     = "./security-groups"
+  ec2_sg_name                = "SG for EC2 to enable SSH(22) and HTTP(80)"
+  vpc_id                     = module.networking.dev_proj_1_vpc_id
+  public_subnet_cidr_block   = tolist(module.networking.public_subnet_cidr_block)
+  ec2_sg_name_for_python_api = "SG for EC2 for enabling port 5000"
 }
 
 module "ec2" {
@@ -28,11 +30,12 @@ module "ec2" {
   public_key               = var.public_key
   subnet_id                = tolist(module.networking.dev_proj_1_public_subnets)[0]
   sg_enable_ssh_https      = module.security_group.sg_ec2_sg_ssh_http_id
+  ec2_sg_name_for_python_api     = module.security_group.sg_ec2_for_python_api
   enable_public_ip_address = true
   user_data_install_apache = templatefile("./template/ec2_install_apache.sh", {})
 }
 
-module "lb_target_group" {
+/*module "lb_target_group" {
   source                   = "./load-balancer-target-group"
   lb_target_group_name     = "dev-proj-1-lb-target-group"
   lb_target_group_port     = 80
@@ -70,4 +73,15 @@ module "aws_ceritification_manager" {
   source         = "./certificate-manager"
   domain_name    = var.domain_name
   hosted_zone_id = module.hosted_zone.hosted_zone_id
+}*/
+
+module "rds_db_instance" {
+  source               = "./rds"
+  db_subnet_group_name = "dev_proj_1_rds_subnet_group"
+  subnet_groups        = tolist(module.networking.dev_proj_1_public_subnets)
+  rds_mysql_sg_id      = module.security_group.rds_mysql_sg_id
+  mysql_db_identifier  = "mydb"
+  mysql_username       = "dbuser"
+  mysql_password       = "dbpassword"
+  mysql_dbname         = "devprojdb"
 }
