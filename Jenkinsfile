@@ -45,5 +45,20 @@ pipeline {
                 }
             }
         }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    if (params.APPLY_TERRAFORM) {
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-crendentails-rwagh']]){
+                            dir('infra') {
+                                sh 'echo "=================Terraform Apply=================="'
+                                sh 'terraform apply'
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
