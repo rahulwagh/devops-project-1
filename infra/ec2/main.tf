@@ -35,7 +35,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
   }
 
   #Copy Python app files
-  provisioner "file" {
+  /*provisioner "file" {
     source      = "./template/python-app/app.py"
     destination = "/home/ubuntu/app.py"
   }
@@ -45,7 +45,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
     destination = "/home/ubuntu/requirements.txt"
   }
 
-  /*provisioner "remote-exec" {
+  provisioner "remote-exec" {
     inline = [
       "yes | sudo apt update",
       "yes | sudo apt install python3 python3-pip",
