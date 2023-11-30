@@ -45,7 +45,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
     destination = "/home/ubuntu/requirements.txt"
   }
 
-  provisioner "remote-exec" {
+  /*provisioner "remote-exec" {
     inline = [
       "yes | sudo apt update",
       "yes | sudo apt install python3 python3-pip",
@@ -61,7 +61,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
     user        = "ubuntu"
     private_key = file("/var/lib/jenkins/custom_keys/aws_ec2_terraform")
     timeout     = "4m"
-  }
+  }*/
 
 }
 
