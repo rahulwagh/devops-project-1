@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    parameters {
+            booleanParam(name: 'PLAN_TERRAFORM', defaultValue: false, description: 'Check to plan Terraform changes')
+            booleanParam(name: 'APPLY_TERRAFORM', defaultValue: false, description: 'Check to apply Terraform changes')
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -17,15 +22,28 @@ pipeline {
 
         stage('Terraform Init') {
                     steps {
-                        script {
-                            // Run 'terraform init' command
-                            sh 'cd infra'
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-crendentails-rwagh']]){
+                            dir('infra') {
+                            sh 'echo "=================Terraform Init=================="'
                             sh 'terraform init'
                         }
+                    }
                 }
         }
+
+        stage('Terraform Plan') {
+            steps {
+                script {
+                    if (params.PLAN_TERRAFORM) {
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-crendentails-rwagh']]){
+                            dir('infra') {
+                                sh 'echo "=================Terraform Plan=================="'
+                                sh 'terraform plan'
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-
-
-
 }
