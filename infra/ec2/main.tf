@@ -9,7 +9,7 @@ variable "user_data_install_apache" {}
 variable "ec2_sg_name_for_python_api" {}
 
 output "ssh_connection_string_for_ec2" {
-  value = format("%s%s", "ssh -i /Users/rahulwagh/.ssh/aws_ec2_terraform ubuntu@", aws_instance.dev_proj_1_ec2.public_ip)
+  value = format("%s%s", "ssh -i /home/ubuntu/keys/aws_ec2_terraform ubuntu@", aws_instance.dev_proj_1_ec2.public_ip)
 }
 
 output "dev_proj_1_ec2_instance_id" {
@@ -59,7 +59,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
     type        = "ssh"
     host        = self.public_ip
     user        = "ubuntu"
-    private_key = file("/Users/rahulwagh/.ssh/aws_ec2_terraform")
+    private_key = file("/home/ubuntu/keys/aws_ec2_terraform")
     timeout     = "4m"
   }
 
