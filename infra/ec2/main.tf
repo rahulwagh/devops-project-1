@@ -35,7 +35,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
   }
 
   #Copy Python app files
-  /*provisioner "file" {
+  provisioner "file" {
     source      = "./template/python-app/app.py"
     destination = "/home/ubuntu/app.py"
   }
@@ -59,9 +59,9 @@ resource "aws_instance" "dev_proj_1_ec2" {
     type        = "ssh"
     host        = self.public_ip
     user        = "ubuntu"
-    private_key = file("/var/lib/jenkins/custom_keys/aws_ec2_terraform")
+    private_key = file("/var/lib/jenkins/custom_keys/aws_ec2_terraform.pem")
     timeout     = "4m"
-  }*/
+  }
 
 }
 
