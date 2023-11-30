@@ -15,4 +15,15 @@ pipeline {
             }
         }
     }
+
+    stage('Terraform Init') {
+                steps {
+                    script {
+                        // Run 'terraform init' command
+                        sh 'cd infra'
+                        sh 'terraform init'
+                    }
+            }
+    }
+
 }
