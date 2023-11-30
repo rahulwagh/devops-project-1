@@ -14,16 +14,18 @@ pipeline {
                 sh "ls -lart"
             }
         }
+
+        stage('Terraform Init') {
+                    steps {
+                        script {
+                            // Run 'terraform init' command
+                            sh 'cd infra'
+                            sh 'terraform init'
+                        }
+                }
+        }
     }
 
-    stage('Terraform Init') {
-                steps {
-                    script {
-                        // Run 'terraform init' command
-                        sh 'cd infra'
-                        sh 'terraform init'
-                    }
-            }
-    }
+
 
 }
