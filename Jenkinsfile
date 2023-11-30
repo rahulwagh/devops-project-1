@@ -53,7 +53,7 @@ pipeline {
                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-crendentails-rwagh']]){
                             dir('infra') {
                                 sh 'echo "=================Terraform Apply=================="'
-                                sh 'terraform apply'
+                                sh 'terraform apply -auto-approve'
                             }
                         }
                     }
