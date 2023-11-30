@@ -11,7 +11,8 @@ pipeline {
                 git branch: 'main',
                     url: 'https://github.com/rahulwagh/devops-project-1.git'
 
-                sh "ls -lat"
+                sh "ls -lart"
             }
         }
+    }
 }
