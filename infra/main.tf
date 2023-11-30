@@ -35,7 +35,7 @@ module "ec2" {
   user_data_install_apache = templatefile("./template/ec2_install_apache.sh", {})
 }
 
-/*module "lb_target_group" {
+module "lb_target_group" {
   source                   = "./load-balancer-target-group"
   lb_target_group_name     = "dev-proj-1-lb-target-group"
   lb_target_group_port     = 80
@@ -73,9 +73,9 @@ module "aws_ceritification_manager" {
   source         = "./certificate-manager"
   domain_name    = var.domain_name
   hosted_zone_id = module.hosted_zone.hosted_zone_id
-}*/
+}
 
-/*module "rds_db_instance" {
+module "rds_db_instance" {
   source               = "./rds"
   db_subnet_group_name = "dev_proj_1_rds_subnet_group"
   subnet_groups        = tolist(module.networking.dev_proj_1_public_subnets)
@@ -84,4 +84,4 @@ module "aws_ceritification_manager" {
   mysql_username       = "dbuser"
   mysql_password       = "dbpassword"
   mysql_dbname         = "devprojdb"
-}*/
+}
