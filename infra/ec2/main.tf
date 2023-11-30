@@ -59,7 +59,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
     type        = "ssh"
     host        = self.public_ip
     user        = "ubuntu"
-    private_key = file("/home/ubuntu/keys/aws_ec2_terraform")
+    private_key = file("/var/lib/jenkins/custom_keys/aws_ec2_terraform")
     timeout     = "4m"
   }
 
