@@ -53,7 +53,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
       "pip3 install -r /home/ubuntu/requirements.txt",
       "echo 'Waiting for 30 seconds before running the app.py'",
       "sleep 30",
-      "nohup python3 -u /home/ubuntu/app.py &"
+      "setsid python3 -u /home/ubuntu/app.py &"
     ]
   }
 
