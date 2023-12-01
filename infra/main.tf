@@ -38,8 +38,8 @@ module "ec2" {
 module "lb_target_group" {
   source                   = "./load-balancer-target-group"
   lb_target_group_name     = "dev-proj-1-lb-target-group"
-  lb_target_group_port     = 80
-  lb_target_group_protocol = "http"
+  lb_target_group_port     = 5000
+  lb_target_group_protocol = "HTTP"
   vpc_id                   = module.networking.dev_proj_1_vpc_id
   ec2_instance_id          = module.ec2.dev_proj_1_ec2_instance_id
 }
@@ -54,7 +54,7 @@ module "alb" {
   tag_name                  = "dev-proj-1-alb"
   lb_target_group_arn       = module.lb_target_group.dev_proj_1_lb_target_group_arn
   ec2_instance_id           = module.ec2.dev_proj_1_ec2_instance_id
-  lb_listner_port           = 80
+  lb_listner_port           = 5000
   lb_listner_protocol       = "HTTP"
   lb_listner_default_action = "forward"
   lb_https_listner_port     = 443
