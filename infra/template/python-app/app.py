@@ -12,6 +12,10 @@ def get_db_connection():
                                  cursorclass=pymysql.cursors.DictCursor)
     return connection
 
+@app.route('/health')
+def health():
+    return "Up & Running"
+
 @app.route('/create_table')
 def create_table():
     connection = get_db_connection()
