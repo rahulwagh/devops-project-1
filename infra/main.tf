@@ -35,10 +35,10 @@ module "ec2" {
   user_data_install_apache = templatefile("./template/ec2_install_apache.sh", {})
 }
 
-module "lb_target_group" {
+/*module "lb_target_group" {
   source                   = "./load-balancer-target-group"
   lb_target_group_name     = "dev-proj-1-lb-target-group"
-  lb_target_group_port     = 80
+  lb_target_group_port     = 443
   lb_target_group_protocol = "HTTPS"
   vpc_id                   = module.networking.dev_proj_1_vpc_id
   ec2_instance_id          = module.ec2.dev_proj_1_ec2_instance_id
@@ -73,7 +73,7 @@ module "aws_ceritification_manager" {
   source         = "./certificate-manager"
   domain_name    = var.domain_name
   hosted_zone_id = module.hosted_zone.hosted_zone_id
-}
+}*/
 
 module "rds_db_instance" {
   source               = "./rds"
