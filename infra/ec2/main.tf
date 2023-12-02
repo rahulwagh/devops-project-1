@@ -50,7 +50,6 @@ resource "aws_instance" "dev_proj_1_ec2" {
       "yes | sudo apt update",
       "yes | sudo apt install python3 python3-pip",
       "pip3 install -r /home/ubuntu/requirements.txt",
-      "pip3 install -r /home/ubuntu/requirements.txt",
       "echo 'Waiting for 30 seconds before running the app.py'",
       "setsid python3 -u /home/ubuntu/app.py &",
       "sleep 30"

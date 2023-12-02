@@ -39,7 +39,7 @@ resource "aws_lb" "dev_proj_1_lb" {
 resource "aws_lb_target_group_attachment" "dev_proj_1_lb_target_group_attachment" {
   target_group_arn = var.lb_target_group_arn
   target_id        = var.ec2_instance_id # Replace with your EC2 instance reference
-  port             = 80
+  port             = 5000
 }
 
 resource "aws_lb_listener" "dev_proj_1_lb_listner" {
